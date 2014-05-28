@@ -1,0 +1,9 @@
+<h3>HOME</h3>
+<% @users.each do |user| %>
+	<p>User: <%= link_to user.name, user %> </p>
+<% end %>
+<%= link_to 'Sign in', new_user_session_path %><br />
+<%= link_to 'Register a new account', new_user_registration_path %>
+<% if user_signed_in? %>
+	<%= link_to('Logout', destroy_user_session_path, :method => :delete) %> 
+<% end %>
