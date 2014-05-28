@@ -30,6 +30,10 @@ group :doc do
   gem 'sdoc', require: false
 end
 
+gem 'devise'
+
+gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
