@@ -1,0 +1,30 @@
+
+<%= content_for :cssname do %>
+<%= stylesheet_link_tag "new_multiple_choice_question", :media => "all" %>
+<% end %>
+
+<h1>Add new multiple choice question</h1>
+<%= form_for :multiple_choice_question, url: multiple_choice_questions_path, method: "post" do |f| %>
+	<div id="question">
+		<h3>Question</h3>
+		<%= f.text_area :question %>
+	</div>
+
+	<div id="answers">
+		<h3>Answers</h3>
+		<h5>A</h5>
+		<%= f.text_area :answerA %>
+		<h5>B</h5>
+		<%= f.text_area :answerB %>
+		<h5>C</h5>
+		<%= f.text_area :answerC %>
+		<h5>D</h5>
+		<%= f.text_area :answerD %>
+		<h3>Right Answer</h3>
+		<%= select_tag(:right_answer, options_for_select(
+			[['A','A'],['B','B'],['C','C'],['D','D']]))%>
+	</div>
+
+	<%= f.submit "Add question" %>
+
+<% end %>
