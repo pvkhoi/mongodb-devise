@@ -1,0 +1,51 @@
+<%= content_for :cssname do %>
+<%= stylesheet_link_tag "index_multiple_choice_question", :media => "all" %>
+<% end %>
+
+<h1>List of all questions</h1>
+
+<table>
+	<tr>
+		<th>Question</th>
+		<th>A</th>
+		<th>B</th>
+		<th>C</th>
+		<th>D</th>
+		<th>E</th>
+		<th>F</th>
+		<th>G</th>
+		<th>H</th>
+		<th>Right answer</th>
+	</tr>
+
+	<% @multiple_choice_questions.each do |x| %>
+		<tr>
+			<td width="276px"><%= x.question %></td>
+			<td width="144px"><%= x.answers[0] %></td>
+			<td width="144px"><%= x.answers[1] %></td>
+			<td width="144px"><%= x.answers[2] %></td>
+			<td width="144px"><%= x.answers[3] %></td>
+			<td width="144px"><%= x.answers[4] %></td>
+			<td width="144px"><%= x.answers[5] %></td>
+			<td width="144px"><%= x.answers[6] %></td>
+			<td width="144px"><%= x.answers[7] %></td>
+			<td>
+				<% if x.right_answer == 1 %>
+					A
+				<% elsif x.right_answer == 2 %>
+					B
+				<% elsif x.right_answer == 3 %>
+					C
+				<% else %>
+					D
+				<% end %>
+			</td>
+			<td><%= link_to 'Edit', edit_multiple_choice_question_path(x) %></td>
+			<td><%= link_to 'Delete', multiple_choice_question_path(x),
+				method: :delete, data: { confirm: 'Are you sure you want to delete
+				this question?' } %></td>
+		</tr>
+	<% end %>
+</table>
+
+<%= link_to 'Add new question', new_multiple_choice_question_path %>

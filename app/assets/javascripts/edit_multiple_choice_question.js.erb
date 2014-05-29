@@ -1,0 +1,33 @@
+$(document).ready(function() {
+	var answer_html1 = '<div class="answer"><h3>Answer ';
+	var answer_html2 = '</h3><textarea name="multiple_choice_question[answers][]"></textarea></div>';
+	
+	var selectbox_html1 = '<option value="';
+	var selectbox_html2 = '">';
+	var selectbox_html3 = '</option>';
+
+	var max_answers = 8;
+	var count_answers = 0;
+	
+	$('#add_answer button').on('click', function() {
+		event.preventDefault();
+		count_answers = $('#answers textarea').length;
+		if (count_answers == max_answers)
+			return false;
+
+		var character = String.fromCharCode(count_answers + 65);
+		var answer_html = answer_html1 + character + answer_html2;
+		var another_answer = $(answer_html);
+		another_answer.appendTo($('#answers'));
+
+		var selectbox_value = count_answers.toString();
+		var selectbox_html = selectbox_html1 + selectbox_value + selectbox_html2
+			+ character + selectbox_html3;
+		var selectbox_answer = $(selectbox_html);
+		selectbox_answer.appendTo($('#selectbox_answer select'));
+
+		count_answers++;
+
+		return false;
+	});
+});

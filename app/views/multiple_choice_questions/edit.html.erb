@@ -1,0 +1,45 @@
+<%= content_for :cssname do %>
+<%= stylesheet_link_tag "edit_multiple_choice_question", :media => "all" %>
+<% end %>
+
+<%= content_for :jsname do %>
+<%= javascript_include_tag 'edit_multiple_choice_question', 'data-turbolinks-track' => true %>
+<% end %>
+
+<h1>Editing multiple choice question</h1>
+<%= link_to 'Back to list of questions', multiple_choice_questions_path %>
+<%= form_for :multiple_choice_question, url: multiple_choice_question_path(@multiple_choice_question), method: :patch do |f| %>
+	
+	<div id="question">
+		<h3>Question</h3>
+		<textarea name="multiple_choice_question[question]"><%= @multiple_choice_question.question%>
+		</textarea>
+	</div>
+
+	<div id="answers">
+		<% character = 65 %>
+		<% @multiple_choice_question.answers.each do |x| %>
+			<h3>Answer <%= character.chr %></h5>
+			<textarea name="multiple_choice_question[answers][]"><%= x %></textarea>
+			<% character += 1 %>
+		<% end %>
+	</div>
+
+	<div id="add_answer">
+		<button>Add another answer</button>
+	</div>	
+
+	<div id="selectbox_answer">
+		<h3>Right Answer</h3>
+		<% i = 0 %>
+		<select name="multiple_choice_question[right_answer]">
+			<% while i < @multiple_choice_question.answers.count %>
+				<option value="<%= i %>"><%= (i + 65).chr %></option>
+				<% i += 1 %>
+			<% end %>
+		</select>
+	</div>
+
+	<%= f.submit "Edit question" %>
+
+<% end %>

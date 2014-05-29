@@ -3,11 +3,11 @@ MongodbDevise::Application.routes.draw do
 
   devise_for :users
   
-  root 'home#index'
+  root 'multiple_choice_questions#index'
   
   resources :users
   resources :multiple_choice_questions
-  
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

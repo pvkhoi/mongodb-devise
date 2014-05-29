@@ -1,0 +1,16 @@
+#question textarea
+{
+	width: 360px;
+	height: 120px;
+}
+
+#answers textarea
+{
+	width: 360px;
+}
+
+input[type=submit]
+{
+	margin-top: 24px;
+	width: 120px;
+}

@@ -1,0 +1,27 @@
+
+<%= content_for :cssname do %>
+<%= stylesheet_link_tag "show_multiple_choice_question", :media => "all" %>
+<% end %>
+
+<%= content_for :jsname do %>
+<%= javascript_include_tag 'new_multiple_choice_question', 'data-turbolinks-track' => true %>
+<% end %>
+
+<h1>Question Page</h1>
+<%= link_to 'Back to list of questions', multiple_choice_questions_path %>
+<div id="question">
+	<h3>Quesiton</h3>
+	<p><%= @multiple_choice_question.question %></p>
+</div>
+
+<div id="answers">
+	<% character = 65 %>
+	<% @multiple_choice_question.answers.each do |x| %>
+		<h3>Answer <%= character.chr %></h3>
+		<p><%= x %></p>
+		<% character += 1 %>
+	<% end %>
+	<h3>Right Answer</h3>
+	<p><%= @right_answer %></p>
+</div>
+
