@@ -11,3 +11,9 @@ user = User.create! :name => 'Khoi', :email => 'pvkhoi@apcs.vn', :password => 'a
 puts 'New user created: ' << user.name
 user2 = User.create! :name => 'Khanh', :email => 'nhkhanh@apcs.vn', :password => 'aaaaaaaa', :password_confirmation => 'aaaaaaaa'
 puts 'New user created: ' << user2.name
+
+puts 'SETTING UP DEFAULT MULTIPLE CHOICE QUESTIONS'
+question1 = MultipleChoiceQuestion.create! :question => 'What color is the sun?', :answers => ['Red', 'Green', 'Blue', 'Pink', 'Purple'], :right_answer => 0
+puts 'Question 1 created: ' << question1.question
+question2 = MultipleChoiceQuestion.create! :question => 'Which country won the 2010 World Cup?', :answers => ['Vietnam', 'England', 'Spain', 'Germany', 'Brazil', 'Holland', 'Argentina', 'Italia'], :right_answer => 2
+puts 'Question 2 created: ' << question2.question
