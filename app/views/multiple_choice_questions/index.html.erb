@@ -29,17 +29,7 @@
 			<td width="144px"><%= x.answers[5] %></td>
 			<td width="144px"><%= x.answers[6] %></td>
 			<td width="144px"><%= x.answers[7] %></td>
-			<td>
-				<% if x.right_answer == 1 %>
-					A
-				<% elsif x.right_answer == 2 %>
-					B
-				<% elsif x.right_answer == 3 %>
-					C
-				<% else %>
-					D
-				<% end %>
-			</td>
+			<td><%= (x.right_answer + 65).chr %></td>
 			<td><%= link_to 'Edit', edit_multiple_choice_question_path(x) %></td>
 			<td><%= link_to 'Delete', multiple_choice_question_path(x),
 				method: :delete, data: { confirm: 'Are you sure you want to delete
