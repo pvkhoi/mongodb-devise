@@ -1,4 +1,4 @@
-class Exam
+class TechnicalTest
   include Mongoid::Document
 
   field :name, type: String

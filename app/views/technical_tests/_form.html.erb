@@ -1,10 +1,10 @@
-<%= form_for @exam, :url => {:action => @exam.new_record? ? :create : :update} do |f| %>
-  <% if @exam.errors.any? %>
+<%= form_for @technical_test, :url => {:action => @technical_test.new_record? ? :create : :update} do |f| %>
+  <% if @technical_test.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@exam.errors.count, "error") %> prohibited this exam from being saved:</h2>
+      <h2><%= pluralize(@technical_test.errors.count, "error") %> prohibited this technical_test from being saved:</h2>
 
       <ul>
-      <% @exam.errors.full_messages.each do |msg| %>
+      <% @technical_test.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
       </ul>
@@ -29,7 +29,7 @@
   <div class="form-actions">
     <%= f.submit nil, :class => 'button' %>
     <%= link_to t('.cancel', :default => "Cancel"),
-                exams_path, :class => 'button' %>
+                technical_tests_path, :class => 'button' %>
   </div>
 
 <% end %>

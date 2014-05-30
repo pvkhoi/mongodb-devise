@@ -1,5 +1,6 @@
 MongodbDevise::Application.routes.draw do
-  get "exams/index"
+  resources :technical_tests
+
   # get "users/show"
 
   devise_for :users
@@ -8,8 +9,6 @@ MongodbDevise::Application.routes.draw do
   
   resources :users
   resources :multiple_choice_questions
-  resources :exams
-
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
