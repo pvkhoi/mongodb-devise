@@ -5,6 +5,9 @@ class TechnicalTestsController < ApplicationController
   # GET /technical_tests.json
   def index
     @technical_tests = TechnicalTest.all
+    respond_to do |format|
+      format.html
+    end
   end
 
   # GET /technical_tests/1
@@ -25,15 +28,25 @@ class TechnicalTestsController < ApplicationController
   # POST /technical_tests.json
   def create
     @technical_test = TechnicalTest.new(:name => technical_test_params[:name])
-
-    num_of_mcqs = technical_test_params[:num_of_mcqs].to_i
-
-    questions = MultipleChoiceQuestion.all.shuffle.slice(0,num_of_mcqs)
     
-    @technical_test.multiple_choice_questions.concat(questions)
+    num_of_mcqs = technical_test_params[:num_of_mcqs].to_i
+    
+    questions = MultipleChoiceQuestion.all.shuffle.slice(0,num_of_mcqs)
+
+    questions.each do |question|
+      can_question = CandidateQuestion.new
+      can_question.multiple_choice_question = question
+      #debugger
+      can_question.save!
+      @technical_test.candidate_questions.push(can_question)
+    end
+
+    
+    #debugger
 
     respond_to do |format|
       if @technical_test.save
+        p @technical_test
         format.html { redirect_to @technical_test, notice: 'Technical test was successfully created.' }
         format.json { render action: 'show', status: :created, location: @technical_test }
       else
