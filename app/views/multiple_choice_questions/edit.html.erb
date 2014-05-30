@@ -34,7 +34,11 @@
 		<% i = 0 %>
 		<select name="multiple_choice_question[right_answer]">
 			<% while i < @multiple_choice_question.answers.count %>
-				<option value="<%= i %>"><%= (i + 65).chr %></option>
+				<% if @multiple_choice_question.right_answer != i %>
+					<%= ("<option value=\"" + i.to_s + "\">" + (i + 65).chr + "</option>").html_safe %>
+				<% else %>
+					<%= ("<option selected=\"selected\" value=\"" + i.to_s + "\">" + (i + 65).chr + "</option>").html_safe %>
+				<% end %>
 				<% i += 1 %>
 			<% end %>
 		</select>
