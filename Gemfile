@@ -45,3 +45,5 @@ gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 
 # Use debugger
 gem 'debugger', group: [:development, :test]
+
+gem 'foundation-rails'
