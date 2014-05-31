@@ -13,6 +13,11 @@ class TechnicalTestsController < ApplicationController
   # GET /technical_tests/1
   # GET /technical_tests/1.json
   def show
+    debugger
+    @technical_test = TechnicalTest.find(params[:id])
+    @question_index = params[:question]
+    a = @question_index.to_i
+    a = 5
   end
 
   # GET /technical_tests/new
