@@ -34,15 +34,12 @@ class TechnicalTestsController < ApplicationController
     questions = MultipleChoiceQuestion.all.shuffle.slice(0,num_of_mcqs)
 
     questions.each do |question|
-      can_question = CandidateQuestion.new
-      can_question.multiple_choice_question = question
-      #debugger
-      can_question.save!
-      @technical_test.candidate_questions.push(can_question)
-    end
+      #can_question = CandidateQuestion.new
+      #can_question.multiple_choice_question = question
+      #@technical_test.candidate_questions.push(can_question)
 
-    
-    #debugger
+      @technical_test.candidate_questions.build(multiple_choice_question: question)
+    end
 
     respond_to do |format|
       if @technical_test.save
