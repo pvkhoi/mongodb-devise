@@ -13,11 +13,17 @@ class TechnicalTestsController < ApplicationController
   # GET /technical_tests/1
   # GET /technical_tests/1.json
   def show
-    debugger
-    @technical_test = TechnicalTest.find(params[:id])
-    @question_index = params[:question]
-    a = @question_index.to_i
-    a = 5
+    paramsX = technical_test_show_params
+    @technical_test_id = paramsX[:id]
+    @question_index = paramsX[:question]
+    @technical_test = TechnicalTest.find(@technical_test_id)
+    @questions = @technical_test.candidate_questions.to_a;
+    @question = @questions[@question_index.to_i-1].multiple_choice_question
+    #debugger
+    @question_content = @question.question
+    @question_answers = @question.answers
+    #debugger
+    @selected_answer = @questions[@question_index.to_i-1].answer
   end
 
   # GET /technical_tests/new
@@ -49,7 +55,8 @@ class TechnicalTestsController < ApplicationController
     respond_to do |format|
       if @technical_test.save
         p @technical_test
-        format.html { redirect_to @technical_test, notice: 'Technical test was successfully created.' }
+        format.html { redirect_to technical_tests_path }
+        #format.html { redirect_to technical_tests_path, notice: 'Technical test was successfully created.' }
         format.json { render action: 'show', status: :created, location: @technical_test }
       else
         format.html { render action: 'new' }
@@ -61,13 +68,18 @@ class TechnicalTestsController < ApplicationController
   # PATCH/PUT /technical_tests/1
   # PATCH/PUT /technical_tests/1.json
   def update
-    respond_to do |format|
-      if @technical_test.update(technical_test_params)
-        format.html { redirect_to @technical_test, notice: 'Technical test was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @technical_test.errors, status: :unprocessable_entity }
+    if (params.has_key?(:question))
+      updateAnswer
+    else
+      debugger
+      respond_to do |format|
+        if @technical_test.update(technical_test_params)
+          format.html { redirect_to @technical_test, notice: 'Technical test was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: 'edit' }
+          format.json { render json: @technical_test.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -91,5 +103,24 @@ class TechnicalTestsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def technical_test_params
       params[:technical_test]
+    end
+
+    def technical_test_show_params
+      params.permit(:id, :question)
+    end
+
+    def updateAnswer
+      paramsX = params.permit(:id, :question, :button_clicked, :selected_answer)
+      @technical_test = TechnicalTest.find(paramsX[:id])
+      @can_question = @technical_test.candidate_questions.to_a[paramsX[:question].to_i-1]
+      @can_question.answer = paramsX[:selected_answer]
+      @can_question.save
+      #debugger
+      if (paramsX[:button_clicked] == "0")
+        redirect_to technical_test_path(:id => paramsX[:id], :question => (paramsX[:question].to_i - 1))
+      else
+        redirect_to technical_test_path(:id => paramsX[:id], :question => (paramsX[:question].to_i + 1))
+      end
+      #debugger
     end
 end

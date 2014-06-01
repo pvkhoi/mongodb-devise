@@ -5,5 +5,5 @@ class MultipleChoiceQuestion
   field :right_answer, type: Integer
   field :answers, type: Array
 
-  embedded_in :candidate_question
+  has_many :candidate_questions
 end

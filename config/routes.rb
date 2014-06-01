@@ -6,8 +6,6 @@ MongodbDevise::Application.routes.draw do
   
   root 'multiple_choice_questions#index'
 
-  
-  
   resources :users
   resources :multiple_choice_questions
   resources :technical_tests

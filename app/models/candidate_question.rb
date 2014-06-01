@@ -3,7 +3,6 @@ class CandidateQuestion
 
   field :answer, type: Integer
 
-  embeds_one :multiple_choice_question
-  
+  belongs_to :multiple_choice_question
   belongs_to :technical_test
 end

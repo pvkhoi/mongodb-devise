@@ -1,0 +1,21 @@
+$(document).ready(function() {
+	$('#previous_answer button').on('click', function() {
+		event.preventDefault();
+		$('#button_clicked').attr('value', 0);
+		var a = $('#button_clicked').attr('value');
+		//alert(a);
+		var x = $('input[name="selected_answer"]:checked').val();
+		$('#selected_answer').attr('value', x);
+		$('#answer_form').submit();
+	});
+
+	$('#next_answer button').on('click', function() {
+		event.preventDefault();
+		$('#button_clicked').attr('value', 1);
+		var a = $('#button_clicked').attr('value');
+		//alert(a);
+		var x = $('input[name="selected_answer"]:checked').val();
+		$('#selected_answer').attr('value', x);
+		$('#answer_form').submit();
+	});
+});
