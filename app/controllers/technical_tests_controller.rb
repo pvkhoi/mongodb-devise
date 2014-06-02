@@ -26,6 +26,17 @@ class TechnicalTestsController < ApplicationController
     @selected_answer = @questions[@question_index.to_i-1].answer
   end
 
+
+
+  # GET /technical_tests/1/report
+  def report
+    @technical_test = TechnicalTest.find(params[:id])
+    
+    @result = @technical_test.calculateResult
+  end
+
+
+
   # GET /technical_tests/new
   def new
     @technical_test = TechnicalTest.new

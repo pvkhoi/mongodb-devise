@@ -7,10 +7,17 @@ MongodbDevise::Application.routes.draw do
   root 'multiple_choice_questions#index'
 
   resources :users
-  resources :technical_tests
+  resources :technical_tests do
+    member do
+      get :report
+    end
+  end
+
 
   resources :multiple_choice_questions do
-    collection { post :import }
+    collection do 
+      post :import
+    end
   end
   
   # The priority is based upon order of creation: first created -> highest priority.

@@ -1,0 +1,38 @@
+<h1>Test report</h1>
+
+<div class="panel callout radius">
+  <h3>Result</h3>
+  
+  <p> Right answers: <span class="label radius success"><%= @result[:right] %></span> </p>
+  <p> Wrong answers: <span class="label radius alert"><%= @result[:wrong] %></span> </p>
+</div>
+
+<h3>Detail</h3>
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Right answer</th>
+      <th>User answer</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @technical_test.candidate_questions.each do |candidate_question| %>
+      <tr>
+        <td><%= candidate_question.multiple_choice_question.question %></td>
+      
+        <td><%= candidate_question.multiple_choice_question.right_answer %> </td>
+
+        <td><%= candidate_question.answer %></td>
+
+        <td><%= candidate_question.answer == candidate_question.multiple_choice_question.right_answer %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Back', technical_tests_path %>
