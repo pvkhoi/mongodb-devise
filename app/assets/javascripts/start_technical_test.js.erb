@@ -1,0 +1,7 @@
+$(document).ready(function() {
+	$('button').on('click', function() {
+		event.preventDefault();
+		$('#start_time').attr('value', 0);
+		$('#start_form').submit();
+	});
+});

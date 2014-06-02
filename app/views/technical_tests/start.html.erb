@@ -1,0 +1,8 @@
+<%= content_for :jsname do %>
+<%= javascript_include_tag 'start_technical_test', 'data-turbolinks-track' => true %>
+<% end %>
+
+<%= form_for :technical_test, :html => {id: 'start_form'}, url: start_technical_test_path(:id => @technical_test_id), method: :get do |f| %>
+	<input id="start_time" name="start_time" type="hidden" value=""/>
+	<button class="button">START</button>
+<% end %>
