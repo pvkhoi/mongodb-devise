@@ -19,10 +19,10 @@ class TechnicalTestsController < ApplicationController
     @technical_test = TechnicalTest.find(@technical_test_id)
     @questions = @technical_test.candidate_questions.to_a;
     @question = @questions[@question_index.to_i-1].multiple_choice_question
-    #debugger
+
     @question_content = @question.question
     @question_answers = @question.answers
-    #debugger
+
     @selected_answer = @questions[@question_index.to_i-1].answer
   end
 
@@ -31,8 +31,8 @@ class TechnicalTestsController < ApplicationController
   # GET /technical_tests/1/report
   def report
     @technical_test = TechnicalTest.find(params[:id])
-    
     @result = @technical_test.calculateResult
+    # UserMailer.send_result_email("Interview Subjetc" , @technical_test.name , @technical_test.name , @result ).deliver  
   end
 
 
