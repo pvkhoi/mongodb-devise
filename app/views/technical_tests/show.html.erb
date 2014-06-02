@@ -39,11 +39,22 @@
 			<button disabled>Next</button>
 		<% end %>
 	</div>
+
+	<div id='finish_test'>
+		<button>Finish</button>
+	</div>
 <% end %>
+
+<%= form_for :technical_test, :html => {id: 'finish_form'}, url: finish_technical_test_path(:id => @technical_test_id, :question => (@question_index.to_i)), method: :patch do |f| %>
+	<input id="last_selected_answer" name="last_selected_answer" type="hidden" value=""/>
+
+<% end %>
+
 <%= link_to 'Back', technical_tests_path %>
 
 <script type="text/javascript">
 var idInterval;
+//var time_remaining = 10;
 var time_remaining = <%= @time_remaining %>;
 function updateTime() {
 	var hour_remaining = parseInt(time_remaining / 3600);
@@ -52,6 +63,18 @@ function updateTime() {
 	document.getElementById("time_remaining").innerHTML = "Time remaining: "
 	+ hour_remaining.toString() + ":" + minute_remaining.toString() + ":" + second_remaining.toString();
 	time_remaining -= 1;
+
+	if (time_remaining == -1)
+	{
+		var radios = document.getElementsByName('selected_answer');
+		for (var i = 0, length = radios.length; i < length; i++)
+			if (radios[i].checked) {
+				var x = document.getElementById('last_selected_answer');
+				x.value = radios[i].value;
+				break;
+			}
+		document.getElementById('finish_form').submit();
+	}
 } 
 
 $(document).ready(function() {

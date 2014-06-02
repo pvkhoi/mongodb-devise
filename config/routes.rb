@@ -11,6 +11,8 @@ MongodbDevise::Application.routes.draw do
     member do
       get :report
       get :start
+      get :finish
+      patch :finish
     end
   end
 

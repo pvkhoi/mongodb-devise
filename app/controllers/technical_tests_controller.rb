@@ -55,9 +55,7 @@ class TechnicalTestsController < ApplicationController
       :username => technical_test_params[:username],
       :email => technical_test_params[:email],
       :duration => technical_test_params[:duration])
-    debugger
     num_of_mcqs = technical_test_params[:num_of_mcqs].to_i
-    debugger
     questions = MultipleChoiceQuestion.all.shuffle.slice(0,num_of_mcqs)
 
     questions.each do |question|
@@ -115,6 +113,16 @@ class TechnicalTestsController < ApplicationController
       redirect_to technical_test_path(:id => params[:id], :question => 1)
     elsif !@technical_test.start_time.nil?
       redirect_to technical_test_path(:id => params[:id], :question => 1)
+    end
+  end
+
+  def finish
+    if params.has_key?(:question)
+      @technical_test = TechnicalTest.find(params[:id])
+      @can_question = @technical_test.candidate_questions.to_a[params[:question].to_i-1]
+      @can_question.answer = params[:last_selected_answer]
+      @can_question.save
+      redirect_to finish_technical_test_path(:id => params[:id])
     end
   end
 

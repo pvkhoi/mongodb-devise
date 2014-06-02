@@ -18,4 +18,12 @@ $(document).ready(function() {
 		$('#selected_answer').attr('value', x);
 		$('#answer_form').submit();
 	});
+
+	$('#finish_test button').on('click', function() {
+		event.preventDefault();
+		var x = $('input[name="selected_answer"]:checked').val();
+		//alert(x);
+		$('#last_selected_answer').attr('value', x);
+		$('#finish_form').submit();
+	});
 });
