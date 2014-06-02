@@ -7,12 +7,17 @@ MongodbDevise::Application.routes.draw do
   root 'multiple_choice_questions#index'
 
   resources :users
+<<<<<<< Updated upstream
+  resources :multiple_choice_questions
   resources :technical_tests
+
+=======
 
   resources :multiple_choice_questions do
     collection { post :import }
   end
   
+>>>>>>> Stashed changes
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

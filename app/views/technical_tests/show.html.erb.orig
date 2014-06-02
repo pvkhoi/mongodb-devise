@@ -1,4 +1,40 @@
-<p id="notice"><%= notice %></p>
+<<<<<<< Updated upstream
+<%= content_for :cssname do %>
+<%= stylesheet_link_tag "show_technical_test", :media => "all" %>
+<% end %>
+=======
+<h1>Listing technical_tests</h1>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Right answer</th>
+      <th>Answer</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @technical_test.candidate_questions do |candidate_question| %>
+      <tr>
+        <td><%= candidate_question.multiple_choice_question.question %></td>
+      	
+        <td><%= candidate_question.question %></td>
+
+        <td><%= candidate_question.question %></td>
+
+        <td><%= candidate_question.question %></td>
+
+        <td><%= candidate_question.question %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+>>>>>>> Stashed changes
 
 <%= content_for :jsname do %>
 <%= javascript_include_tag 'show_technical_test', 'data-turbolinks-track' => true %>

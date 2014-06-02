@@ -2,7 +2,27 @@
 <%= stylesheet_link_tag "index_multiple_choice_question", :media => "all" %>
 <% end %>
 
+<% if notice.present? %>
+	<div data-alert class="alert-box success radius">
+	  <%= notice %>
+	  <a href="#" class="close">&times;</a>
+	</div>
+<% end %>
+
 <h1>List of all questions</h1>
+
+<div class="panel callout radius">
+	<%= link_to 'Add new question', new_multiple_choice_question_path, :class => "button success" %>
+</div>
+
+<div class="panel callout radius">
+	<h3>Import Questions</h3>
+	
+	<%= form_tag import_multiple_choice_questions_path, multipart: true do %>
+	  <%= file_field_tag :file %>
+	  <%= submit_tag "Import", :class => "button" %>
+	<% end %>
+</div>
 
 <table>
 	<tr>
@@ -19,6 +39,7 @@
 	</tr>
 
 	<% @multiple_choice_questions.each do |x| %>
+		<% if x.answers.present? %>
 		<tr>
 			<td width="276px"><%= x.question %></td>
 			<td width="144px"><%= x.answers[0] %></td>
@@ -35,7 +56,7 @@
 				method: :delete, data: { confirm: 'Are you sure you want to delete
 				this question?' } %></td>
 		</tr>
+		<% end %>
 	<% end %>
 </table>
 
-<%= link_to 'Add new question', new_multiple_choice_question_path %>

@@ -5,6 +5,9 @@ class MultipleChoiceQuestion
   field :right_answer, type: Integer
   field :answers, type: Array
 
+<<<<<<< Updated upstream
+  has_many :candidate_questions
+=======
   has_many :candidate_question
 
   def self.import(file)
@@ -35,4 +38,5 @@ class MultipleChoiceQuestion
   	end
   end
 
+>>>>>>> Stashed changes
 end

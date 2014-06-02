@@ -47,3 +47,5 @@ gem 'mongoid', git: 'https://github.com/mongoid/mongoid.git'
 gem 'debugger', group: [:development, :test]
 
 gem 'foundation-rails'
+
+gem 'roo'

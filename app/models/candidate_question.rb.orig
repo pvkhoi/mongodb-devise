@@ -1,0 +1,12 @@
+class CandidateQuestion
+  include Mongoid::Document
+
+  field :answer, type: Integer
+
+  belongs_to :multiple_choice_question
+<<<<<<< Updated upstream
+=======
+  
+>>>>>>> Stashed changes
+  belongs_to :technical_test
+end

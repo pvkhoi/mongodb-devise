@@ -9,6 +9,7 @@ class MultipleChoiceQuestionsController < ApplicationController
 
 	def create
 		@multiple_choice_question = MultipleChoiceQuestion.new(multiple_choice_question_params)
+		debugger
 		@multiple_choice_question.save
 		redirect_to @multiple_choice_question
 	end
@@ -34,6 +35,11 @@ class MultipleChoiceQuestionsController < ApplicationController
 		@multiple_choice_question.destroy
 
 		redirect_to multiple_choice_questions_path
+	end
+
+	def import
+		MultipleChoiceQuestion.import(params[:file])
+		redirect_to multiple_choice_questions_path, notice: "Products imported."
 	end
 
 	private

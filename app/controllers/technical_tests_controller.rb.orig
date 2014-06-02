@@ -13,6 +13,7 @@ class TechnicalTestsController < ApplicationController
   # GET /technical_tests/1
   # GET /technical_tests/1.json
   def show
+<<<<<<< Updated upstream
     paramsX = technical_test_show_params
     @technical_test_id = paramsX[:id]
     @question_index = paramsX[:question]
@@ -24,6 +25,9 @@ class TechnicalTestsController < ApplicationController
     @question_answers = @question.answers
     #debugger
     @selected_answer = @questions[@question_index.to_i-1].answer
+=======
+    @technical_test = TechnicalTest.find(params[:id])
+>>>>>>> Stashed changes
   end
 
   # GET /technical_tests/new
