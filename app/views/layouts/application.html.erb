@@ -8,6 +8,7 @@
 
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
+    <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
   </head>
 
@@ -35,7 +36,7 @@
     		<%= yield %>
     	</div>
 	</div>
-    <%= javascript_include_tag "application" %>
+    
     <%= content_for?(:cssname) ? yield(:cssname) : "" %>
   	<%= content_for?(:jsname) ? yield(:jsname) : "" %>
   </body>

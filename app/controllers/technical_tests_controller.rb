@@ -19,11 +19,12 @@ class TechnicalTestsController < ApplicationController
     @technical_test = TechnicalTest.find(@technical_test_id)
     @questions = @technical_test.candidate_questions.to_a;
     @question = @questions[@question_index.to_i-1].multiple_choice_question
-
+    
     @question_content = @question.question
     @question_answers = @question.answers
-
+    
     @selected_answer = @questions[@question_index.to_i-1].answer
+    @time_remaining = @technical_test.duration * 3600 - DateTime.now.to_i + @technical_test.start_time.to_i
   end
 
 
@@ -49,10 +50,14 @@ class TechnicalTestsController < ApplicationController
   # POST /technical_tests
   # POST /technical_tests.json
   def create
-    @technical_test = TechnicalTest.new(:name => technical_test_params[:name])
-    
+
+    @technical_test = TechnicalTest.new(:name => technical_test_params[:name],
+      :username => technical_test_params[:username],
+      :email => technical_test_params[:email],
+      :duration => technical_test_params[:duration])
+    debugger
     num_of_mcqs = technical_test_params[:num_of_mcqs].to_i
-    
+    debugger
     questions = MultipleChoiceQuestion.all.shuffle.slice(0,num_of_mcqs)
 
     questions.each do |question|
@@ -98,6 +103,18 @@ class TechnicalTestsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to technical_tests_url }
       format.json { head :no_content }
+    end
+  end
+
+  def start
+    @technical_test = TechnicalTest.find(params[:id])
+    @technical_test_id = params[:id]
+    if (params.has_key?(:start_time))
+      @technical_test.start_time = DateTime.now
+      @technical_test.save
+      redirect_to technical_test_path(:id => params[:id], :question => 1)
+    elsif !@technical_test.start_time.nil?
+      redirect_to technical_test_path(:id => params[:id], :question => 1)
     end
   end
 

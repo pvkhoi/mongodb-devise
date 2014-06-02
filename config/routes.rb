@@ -10,6 +10,7 @@ MongodbDevise::Application.routes.draw do
   resources :technical_tests do
     member do
       get :report
+      get :start
     end
   end
 

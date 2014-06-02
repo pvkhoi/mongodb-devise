@@ -6,6 +6,7 @@
 
 <br />
 <br />
+<h5 id="time_remaining">Time remaining: <%=  %></h5>
 <%= form_for :technical_test, :html => {id: 'answer_form'}, url: technical_test_path(:id => @technical_test_id, :question => (@question_index.to_i)), method: :patch do |f| %>
 	<input id="selected_answer" name="selected_answer" type="hidden" value=""/>
 	<input id="button_clicked" name="button_clicked" type="hidden" value=""/>
@@ -40,3 +41,24 @@
 	</div>
 <% end %>
 <%= link_to 'Back', technical_tests_path %>
+
+<script type="text/javascript">
+var idInterval;
+var time_remaining = <%= @time_remaining %>;
+function updateTime() {
+	var hour_remaining = parseInt(time_remaining / 3600);
+	var minute_remaining = parseInt((time_remaining % 3600) / 60);
+	var second_remaining = time_remaining % 60;
+	document.getElementById("time_remaining").innerHTML = "Time remaining: "
+	+ hour_remaining.toString() + ":" + minute_remaining.toString() + ":" + second_remaining.toString();
+	time_remaining -= 1;
+} 
+
+$(document).ready(function() {
+	
+	updateTime();
+	clearInterval(idInterval);
+	idInterval = setInterval( "updateTime()", 1000);
+
+});
+</script>

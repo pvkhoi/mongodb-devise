@@ -2,6 +2,10 @@ class TechnicalTest
   include Mongoid::Document
 
   field :name, type: String
+  field :username, type: String
+  field :email, type: String
+  field :start_time, type: DateTime
+  field :duration, type: Integer
 
   has_many :candidate_questions, autosave: true, dependent: :delete
 

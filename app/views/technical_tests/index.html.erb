@@ -18,7 +18,7 @@
         <td>
           <% @id = technical_test.id %>
           <%= link_to 'Report', report_technical_test_path(:id => @id) %>
-          <%= link_to 'Show', technical_test_path(:id => @id, :question => 1) %>
+          <%= link_to 'Start', start_technical_test_path(:id => @id) %>
           <%= link_to 'Edit', edit_technical_test_path(technical_test) %>
           <%= link_to 'Destroy', technical_test, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
