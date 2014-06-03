@@ -1,10 +1,10 @@
 class TechnicalTestsController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :edit, :update, :destroy, :report]
+  before_action :authenticate_user!, only: [:index, :edit, :destroy, :report]
   before_action :set_technical_test, only: [:show, :edit, :update, :destroy, :start, :update_start_time, :finish, :update_finish]
+  before_action :check_conditions_for_show, only: [:show]
   before_action :check_test_available, only: [:show, :start, :update_start_time]
   before_action :check_update_start_time, only: [:start, :update_start_time]
-  before_action :check_conditions_for_show, only: [:show]
-
+  
 
   # GET /technical_tests
   # GET /technical_tests.json
@@ -126,7 +126,7 @@ class TechnicalTestsController < ApplicationController
 
     @technical_test.set_finish
     @result = @technical_test.calculate_result
-    # UserMailer.send_result_email("Interview Subjetc" , @technical_test.name , @technical_test.name , @result ).deliver  
+    UserMailer.send_result_email("Interview Subjetc" , @technical_test.name , @technical_test.name , @result ).deliver  
     
     respond_to do |format|
       format.html { redirect_to finish_technical_test_path(@technical_test) }
@@ -172,7 +172,7 @@ class TechnicalTestsController < ApplicationController
         return
       end
 
-      if @technical_test.is_finish || @technical_test.is_expired?
+      if @technical_test.is_finish || (@technical_test.start_time.present? && @technical_test.is_expired?)
         redirect_to finish_technical_test_path(@technical_test)
         return
       end

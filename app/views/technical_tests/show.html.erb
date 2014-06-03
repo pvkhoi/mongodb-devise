@@ -8,29 +8,34 @@
 <%= form_for :technical_test, :html => {id: 'answer_form'}, url: technical_test_path(:id => @technical_test.id, :question => (@question_index.to_i)), method: :patch do |f| %>
 	<input id="selected_answer" name="selected_answer" type="hidden" value=""/>
 	<input id="button_clicked" name="button_clicked" type="hidden" value=""/>
-	<h3><%= 'Question ' + @question_index.to_s %></h3>
-	<p><%= my_render @question_content %></p>
+	<div class="panel radius callout">
+		<h3><%= 'Question ' + @question_index.to_s %></h3>
+		<p><%= my_render @question_content %></p>
+	</div>
 
-	<% @question_answers.each_with_index do |answer , index| %>
-		<% if @selected_answer == index %>
-			<input type="radio" name="selected_answer" value="<%= index %>" checked>
-		<% else %>
-			<input type="radio" name="selected_answer" value="<%= index %>">
+	<div class="panel radius">
+		<% @question_answers.each_with_index do |answer , index| %>
+			<% if @selected_answer == index %>
+				<input id="radio<%= index %>" type="radio" name="selected_answer" value="<%= index %>" checked>
+				<label for="radio<%= index %>"> <%= answer %> </label>
+			<% else %>
+				<input id="radio<%= index %>" type="radio" name="selected_answer" value="<%= index %>" >
+				<label for="radio<%= index %>"> <%= answer %> </label>
+			<% end %>
+			<br/>
 		<% end %>
-		<span class='answer_text'><%= answer %></span>
-		<br/>
-	<% end %>
+	</div>
 
-	<div id='previous_answer'>
+	<div id='previous_answer' class="inline-block">
 		<%= previous_next_button %>
 	</div>
 
-	<div id='next_answer'>
+	<div id='next_answer' class="inline-block">
 		<%= test_next_button %>
 	</div>
 
-	<div id='finish_test'>
-		<button>Finish</button>
+	<div id='finish_test' class="block">
+		<button class="button alert">Finish</button>
 	</div>
 <% end %>
 

@@ -7,7 +7,7 @@ module ApplicationHelper
 
 	def coderay(text)
 	  text.gsub(/\<code\>(.+?)\<\/code\>/m) do
-	    content_tag("notextile", CodeRay.scan($1, "ruby").div(:css => :class).html_safe)
+	    content_tag("notextile", CodeRay.scan($1, "java").div(:css => :class).html_safe)
 	  end
 	end
 end

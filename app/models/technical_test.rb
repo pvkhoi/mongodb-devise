@@ -34,7 +34,7 @@ class TechnicalTest
   end
 
   def is_expired?
-    @technical_test.duration * 3600 + @technical_test.start_time.to_i <= DateTime.now.to_i
+    self.duration * 3600 + self.start_time.to_i <= DateTime.now.to_i
   end
 
   def set_finish

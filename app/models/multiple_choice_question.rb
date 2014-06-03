@@ -13,10 +13,10 @@ class MultipleChoiceQuestion
 
   	(2..spreadsheet.last_row).each do |i|
   		row_data = spreadsheet.row(i)
-  		answer_values = row_data[1..8].delete_if {|answer| answer.nil? }
+  		answer_values = row_data[2..8].compact
   		
   		param_keys = %w"question answers right_answer"
-  		param_values = [row_data.first, answer_values, row_data.last]
+  		param_values = [row_data[1], answer_values, row_data.last]
 
   		import_params = Hash[ [param_keys, param_values].transpose ]
   		

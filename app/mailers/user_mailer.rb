@@ -2,7 +2,7 @@ class UserMailer < ActionMailer::Base
   default from: "info@misfit.com"
 
   def send_result_email(subject_email, user_name, user_email, result)
-    to_email = "khoathai@misfit.com"
+    to_email = "huy@misfit.com"
 
     @subject_email = subject_email
     @user_name =  user_name
@@ -10,6 +10,6 @@ class UserMailer < ActionMailer::Base
     @result = result
 
     mail(:from => "info@misfit.com", :reply_to => "info@misfit.com", :to => to_email, :subject => subject_email)
-    
+
   end
 end
