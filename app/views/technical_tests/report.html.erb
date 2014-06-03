@@ -12,6 +12,7 @@
   <thead>
     <tr>
       <th>Question</th>
+      <th>Answers</th>
       <th>Right answer</th>
       <th>User answer</th>
       <th>Status</th>
@@ -22,7 +23,16 @@
     <% @technical_test.candidate_questions.each do |candidate_question| %>
       <tr>
         <td><%= candidate_question.multiple_choice_question.question %></td>
-      
+        
+        <td>
+          <% candidate_question.multiple_choice_question.answers.each_with_index do |answer , index| %>
+            <span class='answer_text'><%= index %>: <%= answer %></span>
+            <br/>
+          <% end %>
+
+        </td>
+
+
         <td><%= candidate_question.multiple_choice_question.right_answer %> </td>
 
         <td><%= candidate_question.answer %></td>
@@ -35,4 +45,4 @@
 
 <br>
 
-<%= link_to 'Back', technical_tests_path %>
+<%= link_to 'Back', technical_tests_path, :class => "button" %>

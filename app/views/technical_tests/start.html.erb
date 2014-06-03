@@ -8,7 +8,7 @@
 <p>You will now have <%= @technical_test.duration %> hours to finish your test.</p>
 <p>As soon as you are ready, please click the button below to start the testing round.</p>
 
-<%= form_for :technical_test, :html => {id: 'start_form'}, url: start_technical_test_path(:id => @technical_test_id), method: :get do |f| %>
+<%= form_for :technical_test, :html => {id: 'start_form'}, url: update_start_time_technical_test_path(@technical_test), method: :patch do |f| %>
 	<input id="start_time" name="start_time" type="hidden" value=""/>
 	<button class="button">START</button>
 <% end %>

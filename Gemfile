@@ -49,3 +49,5 @@ gem 'debugger', group: [:development, :test]
 gem 'foundation-rails'
 
 gem 'roo'
+
+gem 'coderay'

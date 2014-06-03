@@ -1,4 +1,6 @@
 class MultipleChoiceQuestionsController < ApplicationController
+	before_action :authenticate_user!
+
 	def index
 		@multiple_choice_questions = MultipleChoiceQuestion.all
 	end

@@ -1,43 +1,32 @@
-<p id="notice"><%= notice %></p>
-
 <%= content_for :jsname do %>
 <%= javascript_include_tag 'show_technical_test', 'data-turbolinks-track' => true %>
 <% end %>
 
 <br />
 <br />
-<h5 id="time_remaining">Time remaining: <%=  %></h5>
-<%= form_for :technical_test, :html => {id: 'answer_form'}, url: technical_test_path(:id => @technical_test_id, :question => (@question_index.to_i)), method: :patch do |f| %>
+<h5 id="time_remaining">Time remaining: </h5>
+<%= form_for :technical_test, :html => {id: 'answer_form'}, url: technical_test_path(:id => @technical_test.id, :question => (@question_index.to_i)), method: :patch do |f| %>
 	<input id="selected_answer" name="selected_answer" type="hidden" value=""/>
 	<input id="button_clicked" name="button_clicked" type="hidden" value=""/>
-	<h3><%= 'Question ' + @question_index %></h3>
-	<p><%= @question_content %></p>
+	<h3><%= 'Question ' + @question_index.to_s %></h3>
+	<p><%= my_render @question_content %></p>
 
-	<% for i in 0..@question_answers.count - 1 %>
-		<% @answer = @question_answers[i] %>
-		<% if @selected_answer == i %>
-			<input type="radio" name="selected_answer" value="<%=i%>" checked>
+	<% @question_answers.each_with_index do |answer , index| %>
+		<% if @selected_answer == index %>
+			<input type="radio" name="selected_answer" value="<%= index %>" checked>
 		<% else %>
-			<input type="radio" name="selected_answer" value="<%=i%>">
+			<input type="radio" name="selected_answer" value="<%= index %>">
 		<% end %>
-			<span class='answer_text'><%=@answer%></span>
-			<br/>
+		<span class='answer_text'><%= answer %></span>
+		<br/>
 	<% end %>
 
 	<div id='previous_answer'>
-		<% if @question_index.to_i > 1 %>
-			<button>Previous</button>
-		<% else %>
-			<button disabled>Previous</button>
-		<% end %>
+		<%= previous_next_button %>
 	</div>
 
 	<div id='next_answer'>
-		<% if @question_index.to_i < @questions.count %>
-			<button>Next</button>
-		<% else %>
-			<button disabled>Next</button>
-		<% end %>
+		<%= test_next_button %>
 	</div>
 
 	<div id='finish_test'>
@@ -45,17 +34,15 @@
 	</div>
 <% end %>
 
-<%= form_for :technical_test, :html => {id: 'finish_form'}, url: finish_technical_test_path(:id => @technical_test_id, :question => (@question_index.to_i)), method: :patch do |f| %>
+<%= form_for :technical_test, :html => {id: 'finish_form'}, url: update_finish_technical_test_path(:id => @technical_test.id, :question => @question_index), method: :patch do |f| %>
 	<input id="last_selected_answer" name="last_selected_answer" type="hidden" value=""/>
-
 <% end %>
 
-<%= link_to 'Back', technical_tests_path %>
 
 <script type="text/javascript">
 var idInterval;
 //var time_remaining = 10;
-var time_remaining = <%= @time_remaining %>;
+var time_remaining = <%= test_time_remaining.to_i %>;
 function updateTime() {
 	var hour_remaining = parseInt(time_remaining / 3600);
 	var minute_remaining = parseInt((time_remaining % 3600) / 60);
@@ -77,11 +64,12 @@ function updateTime() {
 	}
 } 
 
-$(document).ready(function() {
-	
+$(document).ready(function() {	
 	updateTime();
 	clearInterval(idInterval);
 	idInterval = setInterval( "updateTime()", 1000);
 
 });
+
+
 </script>

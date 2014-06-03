@@ -13,4 +13,10 @@ class CandidateQuestion
   def right_answer
   	self.multiple_choice_question.right_answer
   end
+
+  def update_answer(answer_value)
+    self.answer = answer_value
+    self.save!
+  end
+
 end

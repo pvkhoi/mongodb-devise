@@ -41,7 +41,7 @@
 	<% @multiple_choice_questions.each do |x| %>
 		<% if x.answers.present? %>
 		<tr>
-			<td width="276px"><%= x.question %></td>
+			<td width="276px"><%= my_render(x.question).html_safe %></td>
 			<td width="144px"><%= x.answers[0] %></td>
 			<td width="144px"><%= x.answers[1] %></td>
 			<td width="144px"><%= x.answers[2] %></td>

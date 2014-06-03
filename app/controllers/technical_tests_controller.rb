@@ -1,5 +1,10 @@
 class TechnicalTestsController < ApplicationController
-  before_action :set_technical_test, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:index, :edit, :update, :destroy, :report]
+  before_action :set_technical_test, only: [:show, :edit, :update, :destroy, :start, :update_start_time, :finish, :update_finish]
+  before_action :check_test_available, only: [:show, :start, :update_start_time]
+  before_action :check_update_start_time, only: [:start, :update_start_time]
+  before_action :check_conditions_for_show, only: [:show]
+
 
   # GET /technical_tests
   # GET /technical_tests.json
@@ -13,18 +18,13 @@ class TechnicalTestsController < ApplicationController
   # GET /technical_tests/1
   # GET /technical_tests/1.json
   def show
-    paramsX = technical_test_show_params
-    @technical_test_id = paramsX[:id]
-    @question_index = paramsX[:question]
-    @technical_test = TechnicalTest.find(@technical_test_id)
-    @questions = @technical_test.candidate_questions.to_a;
-    @question = @questions[@question_index.to_i-1].multiple_choice_question
-    
+    @question_index = technical_test_show_params[:question].to_i
+    @candidate_question = @technical_test.candidate_questions[@question_index]
+    @question = @candidate_question.multiple_choice_question
     @question_content = @question.question
     @question_answers = @question.answers
-    
-    @selected_answer = @questions[@question_index.to_i-1].answer
-    @time_remaining = @technical_test.duration * 3600 - DateTime.now.to_i + @technical_test.start_time.to_i
+    @selected_answer = @candidate_question.answer
+
   end
 
 
@@ -32,8 +32,7 @@ class TechnicalTestsController < ApplicationController
   # GET /technical_tests/1/report
   def report
     @technical_test = TechnicalTest.find(params[:id])
-    @result = @technical_test.calculateResult
-    # UserMailer.send_result_email("Interview Subjetc" , @technical_test.name , @technical_test.name , @result ).deliver  
+    @result = @technical_test.calculate_result
   end
 
 
@@ -75,22 +74,19 @@ class TechnicalTestsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /technical_tests/1
-  # PATCH/PUT /technical_tests/1.json
+  # PATCH/PUT /technical_tests/1?question=1
+
   def update
-    if (params.has_key?(:question))
-      updateAnswer
-    else
-      debugger
-      respond_to do |format|
-        if @technical_test.update(technical_test_params)
-          format.html { redirect_to @technical_test, notice: 'Technical test was successfully updated.' }
-          format.json { head :no_content }
+    redirect_param = { :id => params_update_answer[:id], :question => params_update_answer[:question].to_i }
+    respond_to do |format|
+      if @technical_test.update_answer(params_update_answer[:question].to_i , params_update_answer[:selected_answer] )
+        if (params_update_answer[:button_clicked] == "0")
+          redirect_param[:question] -= 1
         else
-          format.html { render action: 'edit' }
-          format.json { render json: @technical_test.errors, status: :unprocessable_entity }
+          redirect_param[:question] += 1
         end
       end
+      format.html { redirect_to technical_test_path redirect_param }
     end
   end
 
@@ -104,25 +100,36 @@ class TechnicalTestsController < ApplicationController
     end
   end
 
+
   def start
-    @technical_test = TechnicalTest.find(params[:id])
-    @technical_test_id = params[:id]
-    if (params.has_key?(:start_time))
-      @technical_test.start_time = DateTime.now
-      @technical_test.save
-      redirect_to technical_test_path(:id => params[:id], :question => 1)
-    elsif !@technical_test.start_time.nil?
-      redirect_to technical_test_path(:id => params[:id], :question => 1)
-    end
+  end
+
+  def update_start_time
+    if params[:start_time]
+      @technical_test.update_start_time  
+      redirect_to technical_test_path(:id => @technical_test.id, :question => 0)
+    else
+      redirect_to start_technical_test_path(@technical_test)
+    end 
   end
 
   def finish
+    respond_to do |format|
+      format.html
+    end
+  end
+
+  def update_finish
     if params.has_key?(:question)
-      @technical_test = TechnicalTest.find(params[:id])
-      @can_question = @technical_test.candidate_questions.to_a[params[:question].to_i-1]
-      @can_question.answer = params[:last_selected_answer]
-      @can_question.save
-      redirect_to finish_technical_test_path(:id => params[:id])
+      @technical_test.update_answer( params[:question].to_i , params[:last_selected_answer] )
+    end
+
+    @technical_test.set_finish
+    @result = @technical_test.calculate_result
+    # UserMailer.send_result_email("Interview Subjetc" , @technical_test.name , @technical_test.name , @result ).deliver  
+    
+    respond_to do |format|
+      format.html { redirect_to finish_technical_test_path(@technical_test) }
     end
   end
 
@@ -141,18 +148,34 @@ class TechnicalTestsController < ApplicationController
       params.permit(:id, :question)
     end
 
-    def updateAnswer
-      paramsX = params.permit(:id, :question, :button_clicked, :selected_answer)
-      @technical_test = TechnicalTest.find(paramsX[:id])
-      @can_question = @technical_test.candidate_questions.to_a[paramsX[:question].to_i-1]
-      @can_question.answer = paramsX[:selected_answer]
-      @can_question.save
-      #debugger
-      if (paramsX[:button_clicked] == "0")
-        redirect_to technical_test_path(:id => paramsX[:id], :question => (paramsX[:question].to_i - 1))
-      else
-        redirect_to technical_test_path(:id => paramsX[:id], :question => (paramsX[:question].to_i + 1))
-      end
-      #debugger
+    def params_update_answer
+      params.permit(:id, :question, :button_clicked, :selected_answer)
     end
+
+    def check_update_start_time
+      if @technical_test.start_time.present?
+        redirect_to technical_test_path(:id => @technical_test.id, :question => 0)
+        return
+      end
+    end
+
+    def check_conditions_for_show
+      if @technical_test.start_time.nil?
+        redirect_to start_technical_test_path(@technical_test)
+        return
+      end
+    end
+
+    def check_test_available
+      if user_signed_in?
+        redirect_to technical_tests_path
+        return
+      end
+
+      if @technical_test.is_finish || @technical_test.is_expired?
+        redirect_to finish_technical_test_path(@technical_test)
+        return
+      end
+    end
+
 end

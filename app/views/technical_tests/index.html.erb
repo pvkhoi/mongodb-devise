@@ -5,6 +5,7 @@
     <tr>
       <th>Name</th>
       <th>Number of questions</th>
+      <th>Link to share</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -15,11 +16,9 @@
         <td><%= technical_test.name %></td>
       
         <td><%= technical_test.candidate_questions.to_a.count %></td>
+        <td> <%= technical_test_url(technical_test) %> </td>
         <td>
-          <% @id = technical_test.id %>
-          <%= link_to 'Report', report_technical_test_path(:id => @id) %>
-          <%= link_to 'Start', start_technical_test_path(:id => @id) %>
-          <%= link_to 'Edit', edit_technical_test_path(technical_test) %>
+          <%= link_to 'Report', report_technical_test_path(technical_test) %> 
           <%= link_to 'Destroy', technical_test, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
