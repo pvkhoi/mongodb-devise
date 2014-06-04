@@ -2,7 +2,7 @@ MongodbDevise::Application.routes.draw do
 
   # get "users/show"
 
-  devise_for :users
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" } 
   
   root 'multiple_choice_questions#index'
 
@@ -18,7 +18,6 @@ MongodbDevise::Application.routes.draw do
       put :update_finish
     end
   end
-
 
   resources :multiple_choice_questions do
     collection do 

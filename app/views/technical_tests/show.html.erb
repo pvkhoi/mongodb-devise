@@ -10,12 +10,12 @@
 	<input id="button_clicked" name="button_clicked" type="hidden" value=""/>
 	<div class="panel radius callout">
 		<h3><%= 'Question ' + @question_index.to_s %></h3>
-		<p><%= my_render @question_content %></p>
+		<p><%= my_render @question.question %></p>
 	</div>
 
 	<div class="panel radius">
-		<% @question_answers.each_with_index do |answer , index| %>
-			<% if @selected_answer == index %>
+		<% @question.answers.each_with_index do |answer , index| %>
+			<% if @candidate_question.answer == index %>
 				<input id="radio<%= index %>" type="radio" name="selected_answer" value="<%= index %>" checked>
 				<label for="radio<%= index %>"> <%= answer %> </label>
 			<% else %>

@@ -21,21 +21,13 @@ class TechnicalTestsController < ApplicationController
     @question_index = technical_test_show_params[:question].to_i
     @candidate_question = @technical_test.candidate_questions[@question_index]
     @question = @candidate_question.multiple_choice_question
-    @question_content = @question.question
-    @question_answers = @question.answers
-    @selected_answer = @candidate_question.answer
-
   end
-
-
 
   # GET /technical_tests/1/report
   def report
     @technical_test = TechnicalTest.find(params[:id])
     @result = @technical_test.calculate_result
   end
-
-
 
   # GET /technical_tests/new
   def new
@@ -102,6 +94,7 @@ class TechnicalTestsController < ApplicationController
 
 
   def start
+    
   end
 
   def update_start_time

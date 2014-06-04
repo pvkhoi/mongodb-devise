@@ -51,3 +51,7 @@ gem 'foundation-rails'
 gem 'roo'
 
 gem 'coderay'
+
+gem 'omniauth'
+
+gem 'omniauth-google-oauth2'

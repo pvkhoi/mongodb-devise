@@ -3,8 +3,10 @@ class User
   
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable,
+         :omniauthable, :omniauth_providers => [:google_oauth2]
 
   ## Database authenticatable
   field :email,              type: String, default: ""
@@ -25,6 +27,10 @@ class User
   field :last_sign_in_ip,    type: String
 
   field :name, type: String
+
+  field :provider,  type: String
+  field :uid,       type: String
+
   # validates_presence_of :name
   # validates_uniqueness_of :name, :email, :case_sensitive => false
 
